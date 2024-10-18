@@ -13,9 +13,6 @@ if uploaded_file is not None:
     result = process_data(data)
     st.session_state.result = result
 
-    if st.button("Submit"):
-        st.success("Data processed successfully! Go to Page 2 to see the results.")
-
 # Page 2: Display Results
 if "result" in st.session_state:
     st.title("Results:")
