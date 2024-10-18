@@ -1,8 +1,6 @@
-
-
 # total revenue
 
-import datetime
+from datetime import datetime
 
 
 class FLAGS:
@@ -28,10 +26,19 @@ def latest_financial_index(data: dict):
     Returns:
     - int: The index of the latest standalone financial entry or 0 if not found.
     """
+
+    latest_date = datetime(1000, 1, 1)
+    latest_index = 0
+
+    # O(n) complexity where n = no. of financial entries, space complexity is O(1)
+
     for index, financial in enumerate(data.get("financials")):
         if financial.get("nature") == "STANDALONE":
-            return index
-    return 0
+            if datetime.strptime(financial.get("year"), "%Y-%m-%d") > latest_date:
+                latest_date = datetime.strptime(financial.get("year"), "%Y-%m-%d")
+                latest_index = index
+
+    return latest_index
 
 
 def total_revenue(data: dict, financial_index):
@@ -168,4 +175,3 @@ def borrowing_to_revenue_flag(data: dict, financial_index):
     if borrowing_to_revenue_ratio <= 0.25:
         return FLAGS.GREEN
     return FLAGS.AMBER
-
